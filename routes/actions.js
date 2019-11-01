@@ -33,6 +33,8 @@ function validateAction(req, res, next) {
 	});
 }
 
+// CRUD operations
+
 // CREATE endpoint for actions
 router.post("/:id", validateActionId, validateAction, (req, res) => {
 	const { id } = req.params;
@@ -63,7 +65,7 @@ router.get("/", (req, res) => {
     });
 });
 
-// Update action
+// UPDATE action
 router.put("/:id", validateActionId, validateAction, (req, res) => {
 	const { id } = req.params;
 	const { description, notes } = req.body;

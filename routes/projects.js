@@ -16,6 +16,8 @@ function validateProject(req, res, next) {
     }
   }
 
+//   CRUD operations
+
   // CREATE endpoint for actions
       router.post("/", validateProject, (req, res) => {
         Projects.insert(req.body)
