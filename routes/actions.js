@@ -17,8 +17,24 @@ function validateAction(req, res, next) {
     }
   }
 
+  function validateActionId(req, res, next) {
+	const { id } = req.params;
+    Action
+    .get(id)
+    .then(action => {
+		if (action) {
+			req.action = action;
+			next();
+		} else {
+			res.status(400).json({
+				message: `Error:` + error.message
+			});
+		}
+	});
+}
+
 // CREATE endpoint for actions
-router.post("/:id", validateAction, (req, res) => {
+router.post("/:id", validateActionId, validateAction, (req, res) => {
 	const { id } = req.params;
 	const { description, notes } = req.body;
 	Action
@@ -48,7 +64,7 @@ router.get("/", (req, res) => {
 });
 
 // Update action
-router.put("/:id", validateAction, (req, res) => {
+router.put("/:id", validateActionId, validateAction, (req, res) => {
 	const { id } = req.params;
 	const { description, notes } = req.body;
 	actionDb
@@ -60,7 +76,7 @@ router.put("/:id", validateAction, (req, res) => {
 });
 
 // DELETE an action
-router.delete("/:id", (req, res) => {
+router.delete("/:id", validateActionId, (req, res) => {
   const { id } = req.params;
   Action
   .remove(id)
